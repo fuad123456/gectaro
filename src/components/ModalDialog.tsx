@@ -3,19 +3,37 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import {useState} from 'react'
+import {ChangeEvent, useState} from 'react'
+import { useAppDispatch } from '../store/hooks';
+import { addWork, } from '../store/WorkItemSlice';
+
 type ModalDialogPropsType = {
     setOpen:(open:boolean)=>void
     opened:boolean
 }
 
 function ModalDialog(props:ModalDialogPropsType) {
-const [startDate, setStartDate] = useState<Date | null>(new Date());
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
+    const [description, setDescription] = useState<string>('')
+    const [measurement, setMeasurement] = useState<string>('')
+    const [amount, setAmount] = useState<number>(0)
+
 
     const handleClose = function(){
         props.setOpen(false)
     }
-
+    const value = {
+        id:'fgfgf',
+        description,
+        measurement,
+        amount,
+        time:startDate
+    }
+    const dispatch = useAppDispatch()
+    const saveChanges = ()=>{
+        dispatch(addWork(value))
+        handleClose()
+    }
     return (
       <>
         <Modal show={props.opened} onHide={handleClose}>
@@ -23,17 +41,25 @@ const [startDate, setStartDate] = useState<Date | null>(new Date());
             <Modal.Title>Добавить работу</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <h1>Содержимое работы</h1>
-              <Form.Control size="lg" type="text" className='mb-2' placeholder="описание работы" />
-              <Form.Control size="lg" type="text" className='mb-2' placeholder="измерение" />
-              <Form.Control size="lg" type="text" className='mb-2' placeholder="стоимость" />
+              <h3>Содержимое работы</h3>
+              <Form.Control 
+                  size="lg" type="text" className='mb-2' placeholder="описание работы" 
+                  onChange={(e:ChangeEvent<HTMLInputElement>)=>setDescription(e.currentTarget.value)}
+              />
+              <Form.Control 
+                  size="lg" type="text" className='mb-2' placeholder="измерение" 
+                  onChange={(e:ChangeEvent<HTMLInputElement>)=>setMeasurement(e.currentTarget.value)}
+              />
+              <Form.Control size="lg" type="text" className='mb-2' placeholder="стоимость" 
+                  onChange={(e:ChangeEvent<HTMLInputElement>)=>setAmount(Number(e.currentTarget.value))}
+              />
               <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={saveChanges}>
               Save Changes
             </Button>
           </Modal.Footer>
