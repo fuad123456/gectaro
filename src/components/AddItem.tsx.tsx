@@ -3,14 +3,12 @@ import { Button } from 'react-bootstrap';
 import ModalDialog from './ModalDialog';
 import Container from 'react-bootstrap/Container';
 
-
 export interface AddItem {
 //   prop?: string;
 }
 
 export function AddItem() {
     const [open, setOpen] = useState<boolean>(false)
-
     // function addItem(){
     //   setItems([...items, 'hello'])
     // }
