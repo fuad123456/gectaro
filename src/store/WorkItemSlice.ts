@@ -5,7 +5,8 @@ export type WorkItemType = {
 	description: string,
 	amount: number,
 	measurement: string,
-	time: Date | null
+	time: Date | null,
+	percent:number
 }
 export type InitialState = {
 	list: WorkItemType[]
@@ -14,7 +15,7 @@ const workSlice = createSlice({
 	name: 'works',
 	initialState: {
 		list: [
-			{id:'sdsds',description:'Земляные работы', measurement:'квМ', time: new Date(), amount:100}
+			{id:'sdsds',description:'Земляные работы', measurement:'квМ', time: new Date(), amount:100, percent:20}
 		]
 	},
 	reducers: {
@@ -24,7 +25,8 @@ const workSlice = createSlice({
 				measurement: action.payload.measurement,
 				amount: action.payload.amount,
 				time: action.payload.time,
-				id: action.payload.id
+				id: action.payload.id,
+				percent:action.payload.percent
 			})
 		},
 		removeWork(state: InitialState, action: PayloadAction<string>) {
@@ -37,6 +39,7 @@ const workSlice = createSlice({
 				item.measurement = action.payload.measurement
 				item.amount = action.payload.amount
 				item.time = action.payload.time
+				item.percent=action.payload.percent
 			}
 		}
 	}

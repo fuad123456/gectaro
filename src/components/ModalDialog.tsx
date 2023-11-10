@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {ChangeEvent, useState} from 'react'
 import { useAppDispatch } from '../store/hooks';
 import { addWork, } from '../store/WorkItemSlice';
+import ru from 'date-fns/locale/ru';
 
 type ModalDialogPropsType = {
     setOpen:(open:boolean)=>void
@@ -16,6 +17,7 @@ function ModalDialog(props:ModalDialogPropsType) {
     const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [description, setDescription] = useState<string>('')
     const [measurement, setMeasurement] = useState<string>('')
+    const [percent, setPercent] = useState<number>(20)
     const [amount, setAmount] = useState<number>(0)
 
 
@@ -27,7 +29,8 @@ function ModalDialog(props:ModalDialogPropsType) {
         description,
         measurement,
         amount,
-        time:startDate
+        percent,
+        time:startDate,
     }
     const dispatch = useAppDispatch()
     const saveChanges = ()=>{
@@ -46,14 +49,28 @@ function ModalDialog(props:ModalDialogPropsType) {
                   size="lg" type="text" className='mb-2' placeholder="описание работы" 
                   onChange={(e:ChangeEvent<HTMLInputElement>)=>setDescription(e.currentTarget.value)}
               />
-              <Form.Control 
-                  size="lg" type="text" className='mb-2' placeholder="измерение" 
-                  onChange={(e:ChangeEvent<HTMLInputElement>)=>setMeasurement(e.currentTarget.value)}
-              />
-              <Form.Control size="lg" type="text" className='mb-2' placeholder="стоимость" 
+              <Form.Control size="lg" type="number" className='mb-2' placeholder="стоимость" 
                   onChange={(e:ChangeEvent<HTMLInputElement>)=>setAmount(Number(e.currentTarget.value))}
               />
-              <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+              <Form.Control size="lg" type="number" className='mb-2' placeholder="процент" 
+                  onChange={(e:ChangeEvent<HTMLInputElement>)=>setPercent(Number(e.currentTarget.value))}
+              />
+               <Form.Select 
+                    aria-label="Default select example" className='mb-2'
+                    onChange={(e:ChangeEvent<HTMLSelectElement>)=>setMeasurement(e.currentTarget.value)}
+               >
+                  <option>измерение</option>
+                  <option value="кв.М">кв.М</option>
+                  <option value="куб.М">куб.М</option>
+                  <option value="пог.М">пог.М</option>
+                  <option value="штук">штук</option>
+               </Form.Select>
+              <DatePicker 
+                  selected={startDate} 
+                  onChange={(date) => setStartDate(date)} 
+                  locale={ru}
+                  dateFormat="dd MMMM yyyy"
+                  />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
