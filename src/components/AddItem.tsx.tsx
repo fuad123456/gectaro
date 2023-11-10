@@ -21,9 +21,6 @@ export function AddItem() {
       <>
           <Container>
               <ModalDialog setOpen={openModal} opened={open}/>
-                <ul>
-                    {items.map((el,i)=><td key={el+i}>{el}</td>)}
-               </ul>
                <Button 
                     type='button' 
                     variant="primary" 
