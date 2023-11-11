@@ -3,14 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { AddItem } from './components/AddItem.tsx'
 import { useAppSelector } from './store/hooks.ts';
 import {Table} from 'react-bootstrap'
+import { WorkItem } from './components/WorkItem/index.ts';
 function App() {
     const works = useAppSelector((state)=>state.works.list)
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      } as const;
+    
   return (
     <div>
          <Table striped bordered hover>
@@ -19,18 +15,17 @@ function App() {
                     <th>Название работы</th>
                     <th>Измерение работы</th>
                     <th>Количество работы</th>
+                    <th>Цена работы</th>
                     <th>Процент работы</th>
                     <th>дата работы</th>
+                    <th>Выручка за работу</th>
                 </tr>
-            {works.map(function(el){
+            {works.map(function(el,i){
                 return (
-                <tr>
-                    <td>{el.description}</td>
-                    <td>{el.measurement}</td>
-                    <td>{el.amount}</td>
-                    <td>{el.percent+'%'}</td>
-                    <td>{el.time.toLocaleDateString('ru-Ru',options)}</td>
-                </tr>
+               <WorkItem
+               el={el}
+               index={i}
+               />
                )
             })}
             </tbody>

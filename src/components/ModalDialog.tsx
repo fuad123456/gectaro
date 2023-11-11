@@ -19,6 +19,7 @@ function ModalDialog(props:ModalDialogPropsType) {
     const [measurement, setMeasurement] = useState<string>('')
     const [percent, setPercent] = useState<number>(20)
     const [amount, setAmount] = useState<number>(0)
+    const [price, setPrice] = useState<number>(0)
 
 
     const handleClose = function(){
@@ -31,6 +32,8 @@ function ModalDialog(props:ModalDialogPropsType) {
         amount,
         percent,
         time:startDate,
+        price,
+        sumWork:0
     }
     const dispatch = useAppDispatch()
     const saveChanges = ()=>{
@@ -49,8 +52,11 @@ function ModalDialog(props:ModalDialogPropsType) {
                   size="lg" type="text" className='mb-2' placeholder="описание работы" 
                   onChange={(e:ChangeEvent<HTMLInputElement>)=>setDescription(e.currentTarget.value)}
               />
-              <Form.Control size="lg" type="number" className='mb-2' placeholder="стоимость" 
+              <Form.Control size="lg" type="number" className='mb-2' placeholder="количество" 
                   onChange={(e:ChangeEvent<HTMLInputElement>)=>setAmount(Number(e.currentTarget.value))}
+              />
+              <Form.Control size="lg" type="number" className='mb-2' placeholder="цена" 
+                  onChange={(e:ChangeEvent<HTMLInputElement>)=>setPrice(Number(e.currentTarget.value))}
               />
               <Form.Control size="lg" type="number" className='mb-2' placeholder="процент" 
                   onChange={(e:ChangeEvent<HTMLInputElement>)=>setPercent(Number(e.currentTarget.value))}
