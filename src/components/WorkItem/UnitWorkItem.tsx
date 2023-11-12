@@ -34,7 +34,7 @@ export default function UnitWorkItem(props:UnitWorkPropsType) {
       }
   return (
     <td onDoubleClick={() => setUpdateMode(true)}>
-    {updateMode ? (
+    {updateMode && !(props.type==='sumWork') ? (
         props.type === 'measurement' ? (
         <select
           value={value !== null ? value as string : ''}
@@ -68,7 +68,7 @@ export default function UnitWorkItem(props:UnitWorkPropsType) {
         />
         )
         ) : (
-  <span>{field ? (props.type==='time' ? field[props.type].toLocaleDateString('ru-Ru',options) : String(field[props.type])):''}</span>
+    <span>{field ? (props.type==='time' ? field[props.type].toLocaleDateString('ru-Ru',options) : String(field[props.type])):''}</span>
     )}
   </td>
 
